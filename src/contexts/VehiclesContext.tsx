@@ -51,7 +51,7 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   const [sortOption, setSortOption] = useState<SortOption>("auctionDateTime");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   // Extract unique makes and models for filter dropdowns
   const uniqueMakes = [
