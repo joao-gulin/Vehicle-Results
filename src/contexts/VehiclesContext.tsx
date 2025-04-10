@@ -1,4 +1,5 @@
-import { createContext, useState, ReactNode } from "react";
+"use client";
+import { createContext, useState, ReactNode, useContext } from "react";
 import {
   Vehicle,
   FilterOptions,
@@ -150,4 +151,12 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </VehicleContext.Provider>
   );
+};
+
+export const useVehicles = () => {
+  const context = useContext(VehicleContext);
+  if (context === undefined) {
+    throw new Error("useVehicles must be used within a VehicleProvider");
+  }
+  return context;
 };
