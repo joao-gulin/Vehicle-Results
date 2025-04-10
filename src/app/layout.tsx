@@ -1,3 +1,4 @@
+import { VehiclesProvider } from "@/contexts/VehiclesContext";
 import "./globals.css";
 export default function RootLayout({
   children,
@@ -6,7 +7,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <VehiclesProvider>{children}</VehiclesProvider>
+      </body>
     </html>
   );
 }

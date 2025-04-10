@@ -34,3 +34,18 @@ export interface Vehicle {
   favourite: boolean;
   details: Details;
 }
+
+// Filter types
+
+interface Filters {
+  make?: string;
+  model?: string;
+  minBid?: number;
+  maxBid?: number;
+  favouriteOnly?: boolean;
+}
+
+interface SortOptions {
+  field: "make" | "startingBid" | "mileage" | "auctionDateTime";
+  order: "asc" | "desc";
+}
