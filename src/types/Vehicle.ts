@@ -11,7 +11,7 @@ export interface Specification {
 
 export interface Ownership {
   logBook: string;
-  numeberOfOwners: number;
+  numeberOfOwners?: number;
   dateOfRegistration: string;
 }
 
@@ -34,14 +34,3 @@ export interface Vehicle {
   favourite: boolean;
   details: Details;
 }
-
-export interface FilterOptions {
-  make: string;
-  model: string;
-  minBid: number;
-  maxBid: number;
-  showFavoritesOnly: boolean;
-}
-
-export type SortOption = "make" | "startingBid" | "mileage" | "auctionDateTime";
-export type SortDirection = "asc" | "desc";
