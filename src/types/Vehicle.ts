@@ -22,7 +22,7 @@ export interface Details {
 }
 
 export interface Vehicle {
-  id: number;
+  id: number; // Id is added here since there no id in the json file
   make: string;
   model: string;
   engineSize: string;
