@@ -1,4 +1,5 @@
 "use client";
+import { Pagination } from "@/components/pagination";
 import { VehicleCard } from "@/components/vehicle-card";
 import { VehicleFilters } from "@/components/vehicle-filters";
 import { VehicleSort } from "@/components/vehicle-sort";
@@ -38,6 +39,8 @@ export default function Home() {
                 <VehicleCard key={vehicle.id} vehicle={vehicle} />
               ))}
             </div>
+
+            <Pagination />
           </>
         ) : (
           <div className="bg-gray-100 rounded-lg p-8 text-center">
