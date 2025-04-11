@@ -47,17 +47,41 @@ export function VehicleFilters() {
         <div className="space-y-2">
           <Label htmlFor="make">Make</Label>
           <Select
-            value={filters.make}
-            onValueChange={(value) => setFilters({ make: value })}
+            value={filters.make || ""}
+            onValueChange={(value) =>
+              setFilters({ make: value === "all" ? "" : value })
+            }
           >
             <SelectTrigger id="make">
               <SelectValue placeholder="All Makes" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="All Makes">All Makes</SelectItem>
+              <SelectItem value="all">All Makes</SelectItem>
               {uniqueMakes.map((make) => (
                 <SelectItem key={make} value={make}>
                   {make}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="model">Model</Label>
+          <Select
+            value={filters.model || ""}
+            onValueChange={(value) =>
+              setFilters({ model: value === "all" ? "" : value })
+            }
+          >
+            <SelectTrigger id="model">
+              <SelectValue placeholder="All Models" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Models</SelectItem>
+              {uniqueModels.map((model) => (
+                <SelectItem key={model} value={model}>
+                  {model}
                 </SelectItem>
               ))}
             </SelectContent>
