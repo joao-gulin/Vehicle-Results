@@ -9,6 +9,8 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Label } from "./ui/label";
+import { Slider } from "./ui/slider";
+import { formatCurrency } from "@/lib/utils";
 
 export function VehicleFilters() {
   const { filters, setFilters, uniqueMakes, uniqueModels, vehicles } =
@@ -86,6 +88,27 @@ export function VehicleFilters() {
               ))}
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <Label>Price Range</Label>
+            <div className="flex justify-between mt-1 text-sm">
+              <span>{formatCurrency(localMinBid)}</span>
+              <span>{formatCurrency(localMaxBid)}</span>
+            </div>
+          </div>
+
+          <Slider
+            min={minPossibleBid}
+            max={maxPossibleBid}
+            step={100}
+            value={[localMinBid, localMaxBid]}
+            onValueChange={([min, max]) => {
+              setLocalMinBid(min);
+              setLocalMaxBid(max);
+            }}
+          />
         </div>
       </CardContent>
     </Card>
