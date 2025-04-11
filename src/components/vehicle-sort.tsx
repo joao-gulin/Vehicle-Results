@@ -29,7 +29,7 @@ export function VehicleSort() {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="make">Make</SelectItem>
-          <SelectItem value="startingBid">startingBid</SelectItem>
+          <SelectItem value="startingBid">Starting Bid</SelectItem>
           <SelectItem value="mileage">Mileage</SelectItem>
           <SelectItem value="auctionDateTime">Auction Date</SelectItem>
         </SelectContent>

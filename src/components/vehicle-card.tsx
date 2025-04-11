@@ -1,5 +1,9 @@
 import { useVehicles } from "@/contexts/VehiclesContext";
-import { calculateTimeRemaining, formatCurrency } from "@/lib/utils";
+import {
+  calculateTimeRemaining,
+  formatAuctionDate,
+  formatCurrency,
+} from "@/lib/utils";
 import { Vehicle } from "@/types/Vehicle";
 import {
   Card,
@@ -21,8 +25,6 @@ interface VehicleCardProps {
 
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   const { toggleFavorite } = useVehicles();
-  const { days, hours } = calculateTimeRemaining(vehicle.auctionDateTime);
-  const auctionActive = days === 0 && hours === 0;
 
   return (
     <Card className="h-full flex flex-col cursor-pointer hover:shadow-gray-400">
@@ -72,13 +74,9 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           </p>
           <div>
             <span className="font-semibold">Auction:</span>{" "}
-            {auctionActive ? (
-              <Badge variant="destructive">Auction Active</Badge>
-            ) : (
-              <Badge variant="outline">
-                {days} days, {hours} hours remaining
-              </Badge>
-            )}
+            <Badge variant="outline">
+              {formatAuctionDate(vehicle.auctionDateTime)}
+            </Badge>
           </div>
         </div>
       </CardContent>

@@ -1,6 +1,7 @@
 "use client";
 import { VehicleCard } from "@/components/vehicle-card";
 import { VehicleFilters } from "@/components/vehicle-filters";
+import { VehicleSort } from "@/components/vehicle-sort";
 import { useVehicles } from "@/contexts/VehiclesContext";
 
 export default function Home() {
@@ -20,6 +21,13 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-8">
         <div className="lg:col-span-1">
           <VehicleFilters />
+        </div>
+      </div>
+
+      <div className="lg:col-span-3">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-semibold">Avaible Vehicles</h2>
+          <VehicleSort />
         </div>
       </div>
       <div className="lg:col-span-3">

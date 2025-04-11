@@ -14,21 +14,19 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
-export function calculateTimeRemaining(auctionDate: string): {
-  days: number;
-  hours: number;
-} {
-  const now = new Date();
-  const auction = new Date(auctionDate);
-  const diffMs = auction.getTime() - now.getTime();
-
-  // If auction has already started/ended
-  if (diffMs <= 0) {
-    return { days: 0, hours: 0 };
-  }
-
-  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-  return { days, hours };
-}
+export const formatAuctionDate = (dateString: string) => {
+  const date = new Date(dateString);
+  // Format: "Apr 15, 2024, at 09:00 AM"
+  return (
+    date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }) +
+    " at " +
+    date.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  );
+};
