@@ -1,3 +1,4 @@
+"use client";
 import { VehicleCard } from "@/components/vehicle-card";
 import { useVehicles } from "@/contexts/VehiclesContext";
 
