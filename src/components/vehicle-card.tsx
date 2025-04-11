@@ -25,7 +25,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
   const auctionActive = days === 0 && hours === 0;
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex flex-col cursor-pointer hover:shadow-gray-400">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-lg font-bold">
@@ -82,9 +82,6 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           </div>
         </div>
       </CardContent>
-      <CardFooter>
-        <Button className="w-full">View Details</Button>
-      </CardFooter>
     </Card>
   );
 }
