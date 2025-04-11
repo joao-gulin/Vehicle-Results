@@ -11,6 +11,7 @@ import {
 import { Label } from "./ui/label";
 import { Slider } from "./ui/slider";
 import { formatCurrency } from "@/lib/utils";
+import { Switch } from "./ui/switch";
 
 export function VehicleFilters() {
   const { filters, setFilters, uniqueMakes, uniqueModels, vehicles } =
@@ -109,6 +110,17 @@ export function VehicleFilters() {
               setLocalMaxBid(max);
             }}
           />
+
+          <div className="flex items-center justify-between pt-2">
+            <Label htmlFor="showFavorites">Show Favorites Only</Label>
+            <Switch
+              id="showFavorites"
+              checked={filters.showFavoritesOnly}
+              onCheckedChange={(checked) =>
+                setFilters({ showFavoritesOnly: checked })
+              }
+            />
+          </div>
         </div>
       </CardContent>
     </Card>
