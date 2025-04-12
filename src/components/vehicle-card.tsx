@@ -1,6 +1,5 @@
 import { useVehicles } from "@/contexts/VehiclesContext";
 import {
-  calculateTimeRemaining,
   formatAuctionDate,
   formatCurrency,
 } from "@/lib/utils";
