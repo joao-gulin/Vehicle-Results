@@ -1,22 +1,13 @@
 import { useVehicles } from "@/contexts/VehiclesContext";
-import {
-  formatAuctionDate,
-  formatCurrency,
-} from "@/lib/utils";
+import { formatAuctionDate, formatCurrency } from "@/lib/utils";
 import { Vehicle } from "@/types/Vehicle";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Heart } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import carImage from "../../public/Car Placeholder.jpg";
 import Image from "next/image";
-import { X509Certificate } from "crypto";
+import Link from "next/link";
 
 interface VehicleCardProps {
   vehicle: Vehicle;
@@ -48,37 +39,39 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
           </Button>
         </div>
       </CardHeader>
-      <CardContent className="pb-2 flex-grow">
-        <div className="aspect-video mb-4 rounded-md flex items-center justify-center">
-          <Image
-            src={carImage}
-            width={300}
-            height={300}
-            alt="Placeholder Picture"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <p>
-            <span className="font-semibold">Engine:</span> {vehicle.engineSize}{" "}
-            {vehicle.fuel}
-          </p>
-          <p>
-            <span className="font-semibold">Mileage:</span>{" "}
-            {vehicle.mileage.toLocaleString()} miles
-          </p>
-          <p>
-            <span className="font-semibold">Starting Bid:</span>{" "}
-            {formatCurrency(vehicle.startingBid)}
-          </p>
-          <div>
-            <span className="font-semibold">Auction:</span>{" "}
-            <Badge variant="outline">
-              {formatAuctionDate(vehicle.auctionDateTime)}
-            </Badge>
+      <Link href={`/vehicles/${vehicle.id}`}>
+        <CardContent className="pb-2 flex-grow">
+          <div className="aspect-video mb-4 rounded-md flex items-center justify-center">
+            <Image
+              src={carImage}
+              width={300}
+              height={300}
+              alt="Placeholder Picture"
+            />
           </div>
-        </div>
-      </CardContent>
+
+          <div className="space-y-2">
+            <p>
+              <span className="font-semibold">Engine:</span>{" "}
+              {vehicle.engineSize} {vehicle.fuel}
+            </p>
+            <p>
+              <span className="font-semibold">Mileage:</span>{" "}
+              {vehicle.mileage.toLocaleString()} miles
+            </p>
+            <p>
+              <span className="font-semibold">Starting Bid:</span>{" "}
+              {formatCurrency(vehicle.startingBid)}
+            </p>
+            <div>
+              <span className="font-semibold">Auction:</span>{" "}
+              <Badge variant="outline">
+                {formatAuctionDate(vehicle.auctionDateTime)}
+              </Badge>
+            </div>
+          </div>
+        </CardContent>
+      </Link>
     </Card>
   );
 }

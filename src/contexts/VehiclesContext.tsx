@@ -11,7 +11,7 @@ import vehiclesData from "../vehicles_dataset.json";
 // Add IDs to each vehicle in the imported data
 const processedVehiclesData: Vehicle[] = vehiclesData.map((vehicle, index) => ({
   ...vehicle,
-  id: `vehicle-${index}`,
+  id: `${index}`,
 }));
 
 interface VehicleContextProps {
