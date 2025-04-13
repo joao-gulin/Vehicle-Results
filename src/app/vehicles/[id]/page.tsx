@@ -10,6 +10,7 @@ import Image from "next/image";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatCurrency } from "@/lib/utils";
 
 type PageParams = {
   id: string;
@@ -43,47 +44,53 @@ export default function VehicleDetailsPage({
   );
 
   return (
-    <main className="container mx-auto py-8 px-4">
+    <main className="container mx-auto py-4 px-4">
       <Button
-        className="mb-6 pl-0"
+        className="mb-4 pl-0"
         variant="ghost"
         onClick={() => router.push("/")}
       >
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back To Results
+        <ArrowLeft className="mr-2 h-4 w-4" /> Back
       </Button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
-          <div className="aspect-video mb-6 rounded-lg flex items-center justify-center">
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          <h1 className="text-xl font-bold">
+            {vehicle.year} {vehicle.make} {vehicle.model}
+          </h1>
+          <p className="text-sm text-gray-600">
+            {vehicle.engineSize} {vehicle.fuel}
+          </p>
+        </div>
+        <Button size="sm" onClick={() => toggleFavorite(vehicle.id)}>
+          <Heart
+            className={`mr-1 h-4 w-4 ${vehicle.favourite ? "fill-red-500" : ""}`}
+          />
+          {vehicle.favourite ? "Favorited" : "Press to Favorite"}
+        </Button>
+      </div>
+
+      {/* Main layout grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-15">
+        {/* Left side - Vehicle Image and Auction Information */}
+        <div className="space-y-4">
+          <div className="rounded-lg overflow-hidden">
             <Image
-              src={carImage}
-              width={300}
-              height={300}
-              alt="Placeholder Picture"
+              src={carImage || "/placeholder.svg"}
+              className="w-full h-auto object-cover"
+              alt={`${vehicle.year} ${vehicle.make} ${vehicle.model}`}
+              priority
             />
           </div>
+        </div>
 
-          <div className="flex justify-between items-start mb-6">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">
-                {vehicle.year} {vehicle.make} {vehicle.model}
-              </h1>
-              <p className="text-gray-600 text-lg">
-                {vehicle.engineSize} {vehicle.fuel}
-              </p>
-            </div>
-
-            <Button>
-              <Heart
-                className={vehicle.favourite ? "fill-white" : ""}
-                size={18}
-              />
-              {vehicle.favourite ? "Favorited" : "Add to Favorites"}
-            </Button>
-          </div>
-
-          <Tabs defaultValue="specification">
-            <TabsList className="grid grid-cols-3 mb-6">
+        {/* Right side - Tabs with vehicle details */}
+        <div>
+          <Tabs defaultValue="auction" className="w-full">
+            <TabsList className="grid w-full grid-cols-4 mb-4">
+              <TabsTrigger value="auction" className="cursor-pointer">
+                Auction
+              </TabsTrigger>
               <TabsTrigger value="specification" className="cursor-pointer">
                 Specification
               </TabsTrigger>
@@ -95,57 +102,88 @@ export default function VehicleDetailsPage({
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="specification" className="space-y-6">
+            <TabsContent value="auction">
               <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle>Vehicle Specifications</CardTitle>
+                <CardHeader className="pb-2 pt-4">
+                  <CardTitle className="text-lg">Auction Information</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                <CardContent className="pt-0">
+                  <dl className="grid grid-cols-2 gap-y-2 text-sm">
                     <div>
-                      <dt className="text-sm text-gray-500">Vehicle Type</dt>
+                      <dt className="text-gray-500">Auction Date</dt>
+                      <dd className="font-medium">
+                        {auctionDate.toLocaleDateString()}
+                        {auctionDate.toLocaleTimeString()}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-gray-500">Mileage</dt>
+                      <dd className="font-medium">
+                        {vehicle.mileage?.toLocaleString() || "N/A"} miles
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-gray-500">Starting Bid</dt>
+                      <dd className="font-medium">
+                        {formatCurrency(vehicle.startingBid)}
+                      </dd>
+                    </div>
+                  </dl>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="specification">
+              <Card>
+                <CardHeader className="pb-2 pt-4">
+                  <CardTitle className="text-lg">
+                    Vehicle Specifications
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+                    <div>
+                      <dt className="text-gray-500">Vehicle Type</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.vehicleType}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Color</dt>
+                      <dt className="text-gray-500">Color</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.colour}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Fuel</dt>
-                      <dd className="font-medium">
-                        {vehicle.details.specification.fuel}
-                      </dd>
+                      <dt className="text-gray-500">Fuel</dt>
+                      <dd className="font-medium capitalize">{vehicle.fuel}</dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Transmission</dt>
+                      <dt className="text-gray-500">Transmission</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.transmission}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Number Of Doors</dt>
+                      <dt className="text-gray-500">Number Of Doors</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.numberOfDoors}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">CO2 Emissions</dt>
+                      <dt className="text-gray-500">CO2 Emissions</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.co2Emissions}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Nox Emissions</dt>
+                      <dt className="text-gray-500">Nox Emissions</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.noxEmissions}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">Number of Keys</dt>
+                      <dt className="text-gray-500">Number of Keys</dt>
                       <dd className="font-medium">
                         {vehicle.details.specification.numberOfKeys}
                       </dd>
@@ -157,23 +195,19 @@ export default function VehicleDetailsPage({
 
             <TabsContent value="ownership">
               <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle>Ownership History</CardTitle>
+                <CardHeader className="pb-2 pt-4">
+                  <CardTitle className="text-lg">Ownership History</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                <CardContent className="pt-0">
+                  <dl className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
                     <div>
-                      <dt className="text-sm text-gray-500">
-                        Date of Registration
-                      </dt>
+                      <dt className="text-gray-500">Date of Registration</dt>
                       <dd className="font-medium">
-                        {registrationDate.toLocaleDateString()} {}
+                        {registrationDate.toLocaleDateString()}
                       </dd>
                     </div>
                     <div>
-                      <dt className="text-sm text-gray-500">
-                        Number of Previous Owners
-                      </dt>
+                      <dt className="text-gray-500">Previous Owners</dt>
                       <dd className="font-medium">
                         {vehicle.details.ownership.numeberOfOwners}
                       </dd>
@@ -183,21 +217,23 @@ export default function VehicleDetailsPage({
               </Card>
             </TabsContent>
 
-            <TabsContent value="equipment" className="space-y-6">
+            <TabsContent value="equipment">
               <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle>Equipment</CardTitle>
+                <CardHeader className="pb-2 pt-4">
+                  <CardTitle className="text-lg">Equipment</CardTitle>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pt-0">
                   {vehicle.details.equipment &&
                   vehicle.details.equipment.length > 0 ? (
-                    <ul className="list-disc pl-5 space-y-2">
+                    <ul className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
                       {vehicle.details.equipment.map((item) => (
-                        <li key={item}>{item}</li>
+                        <li key={item} className="list-disc ml-4">
+                          {item}
+                        </li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-gray-500">
+                    <p className="text-gray-500 text-sm">
                       No equipment listed for this vehicle.
                     </p>
                   )}
