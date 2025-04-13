@@ -1,7 +1,5 @@
-const { TestEnvironment } = require("jest-environment-jsdom");
-
 module.exports = {
-  TestEnvironment: "jsdom",
+  testEnvironment: "jsdom",
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   transform: {
     ".+\\.(js|jsx|ts|tsx)$": ["babel-jest", { presets: ["next/babel"] }],
