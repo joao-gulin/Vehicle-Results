@@ -154,6 +154,56 @@ export default function VehicleDetailsPage({
                 </CardContent>
               </Card>
             </TabsContent>
+
+            <TabsContent value="ownership">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle>Ownership History</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <dl className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+                    <div>
+                      <dt className="text-sm text-gray-500">
+                        Date of Registration
+                      </dt>
+                      <dd className="font-medium">
+                        {registrationDate.toLocaleDateString()} {}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-sm text-gray-500">
+                        Number of Previous Owners
+                      </dt>
+                      <dd className="font-medium">
+                        {vehicle.details.ownership.numeberOfOwners}
+                      </dd>
+                    </div>
+                  </dl>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="equipment" className="space-y-6">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle>Equipment</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {vehicle.details.equipment &&
+                  vehicle.details.equipment.length > 0 ? (
+                    <ul className="list-disc pl-5 space-y-2">
+                      {vehicle.details.equipment.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-gray-500">
+                      No equipment listed for this vehicle.
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </div>
       </div>
