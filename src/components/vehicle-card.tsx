@@ -16,30 +16,39 @@ interface VehicleCardProps {
 export function VehicleCard({ vehicle }: VehicleCardProps) {
   const { toggleFavorite } = useVehicles();
 
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavorite(vehicle.id);
+  };
+
   return (
-    <Card className="h-full flex flex-col cursor-pointer hover:shadow-gray-400">
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <CardTitle className="text-lg font-bold">
-            {vehicle.year} {vehicle.make} {vehicle.model}
-          </CardTitle>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => toggleFavorite(vehicle.id)}
-            className="h-8 w-8"
-          >
-            <Heart
-              className={
-                vehicle.favourite
-                  ? "fill-red-500 text-red-500"
-                  : "text-gray-400"
+    <Link href={`/vehicles/${vehicle.id}`} className="block h-full">
+      <Card className="h-full flex flex-col cursor-pointer hover:shadow-md transition-shadow duration-200">
+        <CardHeader className="pb-2">
+          <div className="flex justify-between items-start">
+            <CardTitle className="text-base font-bold">
+              {vehicle.year} {vehicle.make} {vehicle.model}
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleFavoriteClick}
+              className="h-8 w-8 relative z-10"
+              aria-label={
+                vehicle.favourite ? "Remove from Favorites" : "Add to Favorites"
               }
-            />
-          </Button>
-        </div>
-      </CardHeader>
-      <Link href={`/vehicles/${vehicle.id}`}>
+            >
+              <Heart
+                className={
+                  vehicle.favourite
+                    ? "fill-red-500 text-red-500"
+                    : "text-gray-400"
+                }
+              />
+            </Button>
+          </div>
+        </CardHeader>
         <CardContent className="pb-2 flex-grow">
           <div className="aspect-video mb-4 rounded-md flex items-center justify-center">
             <Image
@@ -47,6 +56,7 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
               width={300}
               height={300}
               alt="Placeholder Picture"
+              className="object-cover"
             />
           </div>
 
@@ -65,13 +75,13 @@ export function VehicleCard({ vehicle }: VehicleCardProps) {
             </p>
             <div>
               <span className="font-semibold">Auction:</span>{" "}
-              <Badge variant="outline">
+              <Badge variant="outline" className="text-xs py-0 h-5">
                 {formatAuctionDate(vehicle.auctionDateTime)}
               </Badge>
             </div>
           </div>
         </CardContent>
-      </Link>
-    </Card>
+      </Card>
+    </Link>
   );
 }
