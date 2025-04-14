@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, ReactNode, useContext } from "react";
+import { createContext, useState, ReactNode, useContext, useMemo } from "react";
 import {
   Vehicle,
   FilterOptions,
@@ -45,7 +45,7 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
     make: "",
     model: "",
     minBid: 0,
-    maxBid: 100000,
+    maxBid: 20000,
     showFavoritesOnly: false,
   });
   const [sortOption, setSortOption] = useState<SortOption>("auctionDateTime");
@@ -53,13 +53,25 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
 
-  // Extract unique makes and models for filter dropdowns
-  const uniqueMakes = [
-    ...new Set(vehicles.map((vehicle) => vehicle.make)),
-  ].sort();
-  const uniqueModels = [
-    ...new Set(vehicles.map((vehicle) => vehicle.model)),
-  ].sort();
+  // Derive unique makes for filter dropdown
+  const uniqueMakes = useMemo(
+    () => [...new Set(vehicles.map((vehicle) => vehicle.make))].sort(),
+    [vehicles],
+  );
+
+  // Derive models for the selected make
+  const uniqueModels = useMemo(() => {
+    // If no make is selected, return an empty array
+    if (!filters.make) return [];
+
+    // Get models only for the selected make
+    const modelsForMake = vehicles
+      .filter((vehicle) => vehicle.make === filters.make)
+      .map((vehicle) => vehicle.model);
+
+    // Return unique, sorted models
+    return [...new Set(modelsForMake)].sort();
+  }, [vehicles, filters.make]);
 
   // Apply filters and sorting
   const getFilteredVehicles = () => {
@@ -107,7 +119,13 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
 
   const updateFilters = (newFilters: Partial<FilterOptions>) => {
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+    setFilters((prev) => {
+      // If the make is being updated, reset the model filter
+      if (newFilters.make !== undefined && newFilters.make !== prev.make) {
+        return { ...prev, ...newFilters, model: "" }; // Reset model here
+      }
+      return { ...prev, ...newFilters };
+    });
     setCurrentPage(1); // Reset to first page when filters change
   };
 

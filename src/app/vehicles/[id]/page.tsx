@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useVehicles } from "@/contexts/VehiclesContext";
 import { ArrowLeft, Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { use, useEffect } from "react";
@@ -11,6 +10,7 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
+import { useVehicles } from "@/contexts/VehiclesContext";
 
 type PageParams = {
   id: string;
