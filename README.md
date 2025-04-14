@@ -2,7 +2,7 @@
 
 A modern web application for browsing and bidding on vehicle auctions, built with next.js 15.3.0 and React 19.
 
-![Vehicle Auctions Screenshot](./public/Main Page.png)
+![Vehicle Auctions Screenshot](./public/Main Page.png?raw=true "Optional Title")
 
 ## 📋 Table of Contents
 
