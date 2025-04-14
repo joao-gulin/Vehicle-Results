@@ -51,3 +51,43 @@ The Vehicle Auctions Platform provides a user-friendly interface for browsing an
 - **Responsive Design**: Optimized for both desktop and mobile devices
 
 - **Pagination**: Navigate through multiple pages of vehicle listings
+
+## 💻 Tech Stack
+
+- **Framework**: [Next.js 15.3.0](https://nextjs.org/)
+
+- **UI Library**: [React 19.0.0](https://react.dev/)
+
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+
+- **UI Components**:
+
+  - [Radix UI](https://www.radix-ui.com/) for accessible components
+
+  - [Shadcn UI](https://ui.shadcn.com/) shadcn/ui is a set of beautifully-designed, accessible components and a code distribution platform.
+
+- **Icons**: [Lucide React](https://lucide.dev/)
+
+- **Testing**: [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
+- **Type Checking**: [TypeScript](https://www.typescriptlang.org/)
+
+- **Linting**: [ESLint](https://eslint.org/)
+
+## 🏁 Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or later
+
+- npm, yarn, pnpm, or bun
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+
+   git clone https://github.com/joao-gulin/vehicle-results.git
+
+   cd vehicle-results
+   ```
