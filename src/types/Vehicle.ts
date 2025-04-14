@@ -11,7 +11,7 @@ export interface Specification {
 
 export interface Ownership {
   logBook: string;
-  numeberOfOwners?: number;
+  numberOfOwners?: number;
   dateOfRegistration: string;
 }
 

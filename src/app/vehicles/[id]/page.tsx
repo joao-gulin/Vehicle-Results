@@ -35,15 +35,10 @@ export default function VehicleDetailsPage({
     return <div className="container mx-auto p-8">Loading...</div>;
   }
 
-  const auctionDate = new Date(vehicle.auctionDateTime);
-  const registrationDate = new Date(
-    vehicle.details.ownership.dateOfRegistration,
-  );
-
   return (
     <main className="container mx-auto py-4 px-4">
       <Button
-        className="mb-4 pl-0"
+        className="mb-4 pl-0 cursor-pointer"
         variant="ghost"
         onClick={() => router.push("/")}
       >
@@ -59,7 +54,11 @@ export default function VehicleDetailsPage({
             {vehicle.engineSize} {vehicle.fuel}
           </p>
         </div>
-        <Button size="sm" onClick={() => toggleFavorite(vehicle.id)}>
+        <Button
+          size="sm"
+          className="cursor-pointer"
+          onClick={() => toggleFavorite(vehicle.id)}
+        >
           <Heart
             className={`mr-1 h-4 w-4 ${vehicle.favourite ? "fill-red-500" : ""}`}
           />

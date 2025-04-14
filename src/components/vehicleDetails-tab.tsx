@@ -136,7 +136,7 @@ const VehicleDetailsTabs: FC<VehicleDetailsTabsProps> = ({ vehicle }) => {
               <div>
                 <dt className="text-gray-500">Previous Owners</dt>
                 <dd className="font-medium">
-                  {vehicle.details.ownership.numeberOfOwners}
+                  {vehicle.details.ownership.numberOfOwners}
                 </dd>
               </div>
             </dl>
