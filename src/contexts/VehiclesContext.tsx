@@ -8,9 +8,9 @@ import {
   PAGINATION_CONSTANTS,
 } from "../types/Vehicle";
 import vehiclesData from "../vehicles_dataset.json";
-import { usePagination } from "@/hooks/usePagination";
-import { useFiltering } from "@/hooks/useFiltering";
-import { useFavorites } from "@/hooks/useFavorite";
+import { usePagination } from "../hooks/usePagination";
+import { useFiltering } from "../hooks/useFiltering";
+import { useFavorites } from "../hooks/useFavorite";
 
 // Add IDs to each vehicle in the imported data
 const processedVehiclesData: Vehicle[] = vehiclesData.map((vehicle, index) => ({
