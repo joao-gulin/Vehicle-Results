@@ -1,5 +1,5 @@
 import { PAGINATION_CONSTANTS } from "@/types/Vehicle";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface PaginationOptions {
   totalItems: number;
@@ -32,12 +32,15 @@ export function usePagination({
     }
   }, [currentPage, totalPages]);
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setCurrentPage(newPage);
-    // Scroll top of the page after changing page
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      if (newPage < 1 || newPage > totalPages) return;
+      setCurrentPage(newPage);
+      // Scroll top of the page after changing page
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    [setCurrentPage, totalPages],
+  );
 
   // Generate page numbers to display
   const getPageNumbers = () => {

@@ -10,6 +10,7 @@ import {
 import vehiclesData from "../vehicles_dataset.json";
 import { usePagination } from "@/hooks/usePagination";
 import { useFiltering } from "@/hooks/useFiltering";
+import { useFavorites } from "@/hooks/useFavorite";
 
 // Add IDs to each vehicle in the imported data
 const processedVehiclesData: Vehicle[] = vehiclesData.map((vehicle, index) => ({
@@ -51,6 +52,9 @@ const VehicleContext = createContext<VehicleContextProps | undefined>(
 export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>(processedVehiclesData);
 
+  // Use the favorite hook
+  const { toggleFavorite } = useFavorites(setVehicles);
+
   // Use the filtering hook
   const {
     filters,
@@ -85,16 +89,6 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
     const { startIndex, endIndex } = paginatedIndices;
     return filteredVehicles.slice(startIndex, endIndex);
   }, [filteredVehicles, paginatedIndices]);
-
-  const toggleFavorite = (id: string) => {
-    setVehicles(
-      vehicles.map((vehicle) =>
-        vehicle.id === id
-          ? { ...vehicle, favourite: !vehicle.favourite }
-          : vehicle,
-      ),
-    );
-  };
 
   const getVehicleById = (id: string) => {
     return vehicles.find((vehicle) => vehicle.id === id);
