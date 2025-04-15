@@ -15,18 +15,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { usePagination } from "@/hooks/usePagination";
 
 export function Pagination() {
   const {
-    currentPage,
-    setCurrentPage,
-    totalPages,
     filteredVehicles,
+    currentPage,
     itemsPerPage,
     setItemsPerPage,
-  } = usePagination();
-  const { handlePageChange } = usePagination();
+    totalPages,
+    handlePageChange,
+    pageNumbers,
+  } = useVehicles();
 
   return (
     <div className="flex flex-col md:flex-row justify-between items-center gap-4">

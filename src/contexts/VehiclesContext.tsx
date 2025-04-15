@@ -5,8 +5,10 @@ import {
   FilterOptions,
   SortOption,
   SortDirection,
+  PAGINATION_CONSTANTS,
 } from "../types/Vehicle";
 import vehiclesData from "../vehicles_dataset.json";
+import { usePagination } from "@/hooks/usePagination";
 
 // Add IDs to each vehicle in the imported data
 const processedVehiclesData: Vehicle[] = vehiclesData.map((vehicle, index) => ({
@@ -20,19 +22,25 @@ interface VehicleContextProps {
   filters: FilterOptions;
   sortOption: SortOption;
   sortDirection: SortDirection;
-  currentPage: number;
-  itemsPerPage: number;
-  totalPages: number;
   uniqueMakes: string[];
   uniqueModels: string[];
+
+  // Pagination props from usePagination hook
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  itemsPerPage: number;
+  totalPages: number;
+  handlePageChange: (newPage: number) => void;
+  pageNumbers: (number | string)[];
+  paginatedIndices: { startIndex: number; endIndex: number };
+  setItemsPerPage: (items: number) => void;
 
   setFilters: (filters: Partial<FilterOptions>) => void;
   setSortOption: (option: SortOption) => void;
   setSortDirection: (direction: SortDirection) => void;
-  setCurrentPage: (page: number) => void;
-  setItemsPerPage: (items: number) => void;
   toggleFavorite: (id: string) => void;
   getVehicleById: (id: string) => Vehicle | undefined;
+  currentPageVehicles: Vehicle[]; // New property for the current page's vehicles
 }
 
 const VehicleContext = createContext<VehicleContextProps | undefined>(
@@ -50,8 +58,6 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   });
   const [sortOption, setSortOption] = useState<SortOption>("auctionDateTime");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(6);
 
   // Derive unique makes for filter dropdown
   const uniqueMakes = useMemo(
@@ -74,7 +80,7 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   }, [vehicles, filters.make]);
 
   // Apply filters and sorting
-  const getFilteredVehicles = () => {
+  const filteredVehicles = useMemo(() => {
     return vehicles
       .filter((vehicle) => {
         if (filters.showFavoritesOnly && !vehicle.favourite) return false;
@@ -113,10 +119,29 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
             ? -1
             : 1;
       });
-  };
+  }, [vehicles, filters, sortOption, sortDirection]);
 
-  const filteredVehicles = getFilteredVehicles();
-  const totalPages = Math.ceil(filteredVehicles.length / itemsPerPage);
+  // Use the pagination hook
+  const {
+    currentPage,
+    setCurrentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    totalPages,
+    handlePageChange,
+    pageNumbers,
+    paginatedIndices,
+  } = usePagination({
+    totalItems: filteredVehicles.length,
+    initialPage: PAGINATION_CONSTANTS.DEFAULT_PAGE,
+    initialItemsPerPage: PAGINATION_CONSTANTS.DEFAULT_ITEMS_PER_PAGE,
+  });
+
+  // Get the vehicles for the current page
+  const currentPageVehicles = useMemo(() => {
+    const { startIndex, endIndex } = paginatedIndices;
+    return filteredVehicles.slice(startIndex, endIndex);
+  }, [filteredVehicles, paginatedIndices]);
 
   const updateFilters = (newFilters: Partial<FilterOptions>) => {
     setFilters((prev) => {
@@ -151,19 +176,26 @@ export const VehicleProvider = ({ children }: { children: ReactNode }) => {
         filters,
         sortOption,
         sortDirection,
-        currentPage,
-        itemsPerPage,
-        totalPages,
         uniqueMakes,
         uniqueModels,
 
+        // Pagination props
+        currentPage,
+        setCurrentPage,
+        itemsPerPage,
+        totalPages,
+        handlePageChange,
+        pageNumbers,
+        paginatedIndices,
+        setItemsPerPage,
+
+        // Methods
         setFilters: updateFilters,
         setSortOption,
         setSortDirection,
-        setCurrentPage,
-        setItemsPerPage,
         toggleFavorite,
         getVehicleById,
+        currentPageVehicles,
       }}
     >
       {children}
