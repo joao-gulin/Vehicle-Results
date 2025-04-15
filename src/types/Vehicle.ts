@@ -35,6 +35,21 @@ export interface Vehicle {
   details: Details;
 }
 
+export enum SortOptionEnum {
+  MAKE = "make",
+  STARTING_BID = "startingBid",
+  MILEAGE = "mileage",
+  AUCTION_DATE_TIME = "auctionDateTime",
+}
+
+export enum SortDirectionEnum {
+  ASC = "asc",
+  DESC = "desc",
+}
+
+export type SortOption = "make" | "startingBid" | "mileage" | "auctionDateTime";
+export type SortDirection = "asc" | "desc";
+
 // Filter types
 
 export interface FilterOptions {
@@ -45,5 +60,22 @@ export interface FilterOptions {
   showFavoritesOnly: boolean;
 }
 
-export type SortOption = "make" | "startingBid" | "mileage" | "auctionDateTime";
-export type SortDirection = "asc" | "desc";
+// Component Props types
+export interface VehicleCardProps {
+  vehicle: Vehicle;
+}
+
+// Constants
+export const PAGINATION_CONSTANTS = {
+  DEFAULT_ITEMS_PER_PAGE: 6,
+  ITEMS_PER_PAGE_OPTIONS: [3, 6, 9, 12],
+  DEFAULT_PAGE: 1,
+};
+
+export const FILTER_CONSTANTS = {
+  DEFAULT_MIN_BID: 0,
+  DEFAULT_MAX_BID: 20000,
+  BID_STEP: 100,
+};
+
+export const DEBOUNCE_DELAY = 300;
