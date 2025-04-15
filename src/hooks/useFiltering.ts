@@ -57,7 +57,7 @@ export function useFiltering(vehicles: Vehicle[]) {
   }, []);
 
   const resetFilters = useCallback(() => {
-    setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    setFilters(defaultFilters);
   }, []);
 
   const toggleSortDirection = useCallback(() => {

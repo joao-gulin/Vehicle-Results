@@ -9,6 +9,7 @@ import {
 } from "../types/Vehicle";
 import vehiclesData from "../vehicles_dataset.json";
 import { usePagination } from "@/hooks/usePagination";
+import { useFiltering } from "@/hooks/useFiltering";
 
 // Add IDs to each vehicle in the imported data
 const processedVehiclesData: Vehicle[] = vehiclesData.map((vehicle, index) => ({
@@ -49,6 +50,19 @@ const VehicleContext = createContext<VehicleContextProps | undefined>(
 
 export const VehicleProvider = ({ children }: { children: ReactNode }) => {
   const [vehicles, setVehicles] = useState<Vehicle[]>(processedVehiclesData);
+
+  // Use the filtering hook
+  const {
+    filters,
+    setFilters: updateFilters,
+    sortOption,
+    setSortOption,
+    sortDirection,
+    setSortDirection,
+    filteredVehicles,
+    uniqueMakes,
+    uniqueModels,
+  } = useFiltering(vehicles);
 
   // Use the pagination hook
   const {
