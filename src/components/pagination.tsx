@@ -19,6 +19,7 @@ import {
 export function Pagination() {
   const {
     filteredVehicles,
+    setCurrentPage,
     currentPage,
     itemsPerPage,
     setItemsPerPage,
